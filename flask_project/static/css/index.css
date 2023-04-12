@@ -1,0 +1,36 @@
+body {
+    margin: 0;
+    font-family: "Lato", sans-serif;
+    padding: 20px;
+    background: #f1f1f1;
+  }
+  
+  .sidebar {
+    margin: 0;
+    padding: 0;
+    width: 200px;
+    background-color: #f1f1f1;
+    position: fixed;
+    height: 100%;
+    overflow: auto; 
+  }
+  
+  .sidebar a { /*Кнопки*/
+    display: block;
+    color: black;
+    padding: 16px;
+    text-decoration: none;
+  }
+  
+  .sidebar a:hover { /*Кнопки при наведении*/
+    background-color: #555;
+    color: white;
+  }
+  
+  .content {
+    margin-left: 50px;
+    padding: 1px 16px;
+    height: 1000px;
+  }
+  
+  

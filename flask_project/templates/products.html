@@ -1,0 +1,71 @@
+{% extends 'index.html' %}
+
+{% block head %}
+<link rel="stylesheet" href= "/static/css/products.css">
+<title>Товары</title>
+{% endblock %}
+
+{% block content %}
+
+  <h2 style="text-align:center">Продукты для мэтчинга</h2>
+
+  <form action="/products"  method='POST'>
+  <div class="row"> <!-- сделать цикл for для заполнения карточек? -->
+    {% for row in data %}
+    <div class="column">
+      <div class="card">
+        <!-- <img src="/static/images/baby1.jpg" style="width:100%"> -->
+        <div class="container">
+          <h2>Вася</h2> <!-- title -->
+          <p class="title">{{row.name}}</p>
+          <p>{{row.title}}</p> <!-- название title -->
+          <p>{{row.brand}}</p> <!-- бренд (возможна пустота) -->
+          <p>{{row.price}}</p> <!-- цена -->
+          <input  type='submit' class="collapsible" value = 'Описание' name="act_{{row.index}}"/>
+          <!-- <button type="submit" class="collapsible">Описание</button> -->
+          <!-- {% if displays[row.index] != 0 %}
+            <div class="desc">
+            <p>{{row.description}}</p>
+            </div>
+          {% endif %} -->
+          <details>
+            <summary>Описание</summary>
+                <p> {{row.description}}</p>
+          </details>
+          <details>
+            <summary>Характеристики</summary>
+                <p> {{row.attributes}}</p>
+          </details>
+          
+          {% if row.index > 0 %}
+          <hr class='horizontal-line hr1' />
+          <div>
+            <div>
+                <input type="radio" id="matchChoice1" name="match{{row.index}}" value="match" />
+                <label for="matchChoice1">match</label>
+            </div>
+            <div>
+                <input type="radio" id="matchChoice2" name="match{{row.index}}" value="non-match-close" />
+                <label for="matchChoice2">non-match-close</label>
+            </div>
+            <div>
+                <input type="radio" id="matchChoice3" name="match{{row.index}}" value="non-match" />
+                <label for="matchChoice3">non-match</label>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+
+    {% endfor %}
+    </div>
+    <!-- кнопка submit -->
+    <div class="button">
+        <input  type='submit' value = 'Отправить результаты' name="act_res"/>
+        <!-- <button type='submit'>Отправить результаты</button> -->
+    </div>
+ </form>
+
+{% endblock %}
