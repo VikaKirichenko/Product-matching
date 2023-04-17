@@ -5,22 +5,22 @@ from random import randint
 import os
 import pandas as pd
 import psycopg2
-
+import ast
 
 
 app = Flask(__name__)
 
 def get_db_connection():
-    conn = psycopg2.connect(host='localhost',
-                            database='products_db',
-                            user='postgres',
-                            password='12345')
+    conn = psycopg2.connect(host='84.201.175.11',
+                            database='wishlist',
+                            user='web_app',
+                            password='shopsdb9274')
     return conn
 
 
 def get_info_by_id(product_id,cur):
     cur.execute('SELECT title, brand, price, description, specifications '
-                'FROM test_table '
+                'FROM products '
                 'WHERE id = (%s);',(product_id,))
     product_info = cur.fetchall()[0]
     product = {
@@ -28,13 +28,14 @@ def get_info_by_id(product_id,cur):
         'brand':product_info[1],
         'price':product_info[2],
         'description':product_info[3],
-        'specifications':product_info[4]
+        'specifications':ast.literal_eval(product_info[4])
     }
     return product
 
 
 @app.route('/')
 def index():
+    # сделать url_for на products
     return render_template('index.html')
 
 @app.route('/products/', methods=['GET', 'POST'])
@@ -58,49 +59,15 @@ def products():
         for id, option in zip(ids,options):
             id_ =  request.form.get(id[0])
             option_ = request.form.get(option[0])
-            print('id',id_,'match', option_)
+            # print('id',id_,'match', option_)
             
             cur.execute('UPDATE pairs SET match_type = %s WHERE pair_id = %s;',(str(option_),int(id_)))
             updated_rows = cur.rowcount
             conn.commit()
-            print(updated_rows)
+            # print(updated_rows)
         cur.close()
         conn.close()
-        # return "ok"
-
-
         
-        # проверить, что если какой-то None, то сказать пометить все элементы
-        # print(1)
-        # return "hello"
-        # if request.form['match1']
-        # match1 = request.form['match1']
-
-        # match1 = request.form['match0']
-        # print(match1)
-        # match2 = request.form['match2']
-        # match3 = request.form['match3']
-        # print(match1, match2,match3)
-        # return 'ok'
-
-    # df = pd.read_csv("data/wb_dataset_8000_8270.csv")
-    # # print(df.shape)
-    # prods = df.to_dict('records')
-    # print(prods[:4])
-
-    # products = []
-    # for i in range(4):
-    #     product = {'index':i,
-    #                'name': f'товар {i}',
-    #                'title': prods[i]['title'],
-    #                'brand': prods[i]['brand'],
-    #                'price': prods[i]['price'], 
-    #                'desc_collap': 0,
-    #                'description': prods[i]['description'],
-    #                'attributes': prods[i]['specifications']}
-    #     products.append(product)
-    # print(products)
-    # titles = []
 
     conn = get_db_connection()
     cur = conn.cursor()
@@ -125,7 +92,7 @@ def products():
     conn.close()
 
     # print(pairs_to_show[0])
-    print(len(pairs_to_show))
+    # print(len(pairs_to_show))
 
 
 

@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block content %}
-<h2 style="text-align:center">Продукты для мэтчинга</h2>
+<h2 style="text-align:center">Товары для мэтчинга</h2>
 <form action="/products/"  method='POST'>
 {% if data %}
 <table id="data" class="table table-striped">
@@ -41,7 +41,9 @@
     <td>
         <details>
             <summary>Характеристики</summary>
-                <p>{{row['product1']['specifications']}}</p>
+                {% for spec in row['product1']['specifications'] %}
+                    {{spec}} : {{row['product1']['specifications'][spec]}} <br>
+                {% endfor %}
           </details>
     </td>
     <td>
@@ -58,7 +60,9 @@
     <td>
         <details>
             <summary>Характеристики</summary>
-                <p>{{row['product2']['specifications']}}</p>
+                {% for spec in row['product2']['specifications'] %}
+                    {{spec}} : {{row['product2']['specifications'][spec]}} <br>
+                {% endfor %}
           </details>
     </td>
     <td>
