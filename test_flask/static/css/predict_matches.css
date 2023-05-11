@@ -1,0 +1,56 @@
+.form {
+    text-align: center;
+    display: block;
+    list-style-type : none;
+    margin-top      : 50px;
+    padding         : 10px;
+    width: 95%;
+    /* overflow        : hidden; */
+    /* background-color: transparent; */
+}
+
+.form li {
+    float     : none;
+    margin-top: 15px;
+    margin-left: 5px;
+    display        : inline;
+}
+
+.form li a {
+    display        : inline;
+    color          : white;
+    text-align     : center;
+    padding        : 14px 16px;
+    text-decoration: none;
+}
+
+hr.solid {
+    border-top: 3px solid #bbb;
+  }
+
+.form li a:hover {
+    background-color: none;
+}
+
+.prod_info li {
+    /* float     : none;
+    margin-top: 15px;
+    margin-left: 15px; */
+    display        : inline;
+}
+
+.prod_info table {
+    margin: 10px auto; /* Сверху и снизу таблицы отступы 15 пикселей, auto - центрирует таблицу */
+    font-size: 14px;
+    font-family: sans-serif; /* Подключаем красивый шрифт */
+    table-layout: fixed;
+    width: 80%; /* Ширина таблицы относительно всей страницы */
+    border: 1px solid; /* Создаем двойную границу с толщиной 5 пикселей */
+}
+
+table th,
+table td {
+    padding: 5px 5px; 
+    word-wrap:break-word;
+}
+

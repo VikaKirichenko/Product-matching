@@ -1,0 +1,104 @@
+{% extends 'index.html' %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="../static/css/products1.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.css">
+{% endblock %}
+
+{% block content %}
+<h2 style="text-align:center">Товары для мэтчинга</h2>
+<form action="/products/"  method='POST'>
+{% if data %}
+<table id="data" class="table table-striped">
+    <thead>
+  <tr>
+    <th>title+brand1</th>
+    <th>description1</th>
+    <th>attributes1</th>
+    <th>title+brand2</th>
+    <th>description2</th>
+    <th>attributes2</th>
+    <th></th>
+  </tr>
+</thead>
+<tbody>
+  {% for row in data %}
+  <tr>
+    <input type="hidden" value="{{row.pair_id}}" name='item_id{{row.pair_id}}'>
+    <td>
+        <p>{{row['product1']['title']}}</p>
+        <p>{{row['product1']['brand']}}</p>
+        <p>{{row['product1']['price']}}</p>
+        <!-- <p>{{row['product1']['url']}}</p> -->
+    </td>
+
+    <td>
+        <!-- {{row.description_1}} -->
+        <details>
+            <summary>Описание</summary>
+                <p> {{row['product1']['description']}}</p>
+          </details>
+    </td>
+    <td>
+        <details>
+            <summary>Характеристики</summary>
+                {% for spec in row['product1']['specifications'] %}
+                    {{spec}} : {{row['product1']['specifications'][spec]}} <br>
+                {% endfor %}
+          </details>
+    </td>
+    <td>
+        <p>{{row['product2']['title']}}</p>
+        <p>{{row['product2']['brand']}}</p>
+        <p>{{row['product2']['price']}}</p>
+        <!-- <p>{{row['product2']['url']}}</p> -->
+    </td>
+    <td>
+        <details>
+            <summary>Описание</summary>
+                <p> {{row['product2']['description']}}</p>
+          </details>
+    </td>
+    <td>
+        <details>
+            <summary>Характеристики</summary>
+                {% for spec in row['product2']['specifications'] %}
+                    {{spec}} : {{row['product2']['specifications'][spec]}} <br>
+                {% endfor %}
+          </details>
+    </td>
+    <td>
+        <div>
+            <div>
+                <input type="radio" id="matchChoice1" name="match{{row.pair_id}}" value="1" />
+                <label for="matchChoice1">match</label>
+            </div>
+            <div>
+                <input type="radio" id="matchChoice2" name="match{{row.pair_id}}" value="2" />
+                <label for="matchChoice2">non-match-close</label>
+            </div>
+            <div>
+                <input type="radio" id="matchChoice3" name="match{{row.pair_id}}" value="3" />
+                <label for="matchChoice3">non-match</label>
+            </div>
+            <div>
+                <input type="radio" id="matchChoice3" name="match{{row.pair_id}}" value="4" />
+                <label for="matchChoice3">del pair</label>
+            </div>
+          </div>
+        <!-- <input type="radio" name="options" id="option1" value="option1"> Option1 </input> <br>
+        <input type="radio" name="options" id="option2" value="option2"> Option2 </input> <br>
+        <input type="radio" name="options" id="option3" value="option3"> Option3 </input> <br> -->
+    </td>
+  </tr>
+  {% endfor %}
+</tbody>
+</table>
+    <div class="button">
+        <button type='submit'>Отправить результаты</button>
+    </div>
+</form>
+{% else %}
+<div class = "bg-image"> </div>
+{% endif %}
+{% endblock %}

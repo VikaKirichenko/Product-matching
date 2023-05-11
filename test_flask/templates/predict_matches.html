@@ -1,0 +1,167 @@
+{% extends 'index.html' %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="../static/css/predict_matches.css">
+{% endblock %}
+
+{% block content %}
+
+<div>
+    <button type = 'submit'>Сохранения</button>
+</div>
+
+<div>
+    {{error}}
+<form action='/predict_matches' method='post'>
+    <ul class="form">
+        <li>
+         <input type="text" name = "title", placeholder = "Название">
+        </li>
+        <li>
+         <input type="text" name = "brand", placeholder = "Бренд">
+        </li>
+        <li>
+         <input type="text" name = "price", placeholder = "Цена">
+        </li>
+        <li>
+            <label for="description">Описание</label>
+            <textarea name="description"></textarea>
+            <!-- <input type="text" name = "description", placeholder = "Описание"> -->
+           </li>
+        <li>
+        <li>
+            <!-- <input type="text" name = "specifications", placeholder = "Характеристики"> -->
+            <label for="specifications">Характеристики</label>
+            <textarea name="specifications"></textarea>
+        </li>
+
+        <li>
+            <select name="category">
+                <option value="smartphones">Смартфоны</option>
+                <!-- <option value="Пункт самовывоза">Пункт самовывоза</option> -->
+            </select>
+        </li>
+        <li>
+            <button type="submit" name="search" value="search"> Поиск </button>
+        </li>
+    </ul>
+</form>
+</div>
+
+
+<form method="post" action="/predict_matches">
+    <button type = 'submit' name="generate" value="generating_product">Сгенерировать товар</button>
+</form>
+
+
+<hr class="solid">
+
+
+<!-- <h3 style="text-align:center">Товар</h3> -->
+<div class="prod_info">
+    {% if product %}
+    <!-- <p>Товар</p> -->
+    <table>
+        <caption>Товар</caption>  
+      <tr>
+        <th>title</th>
+        <th>brand</th>
+        <th>price</th>
+        <th>description</th>
+        <th>specifications</th>
+        <th></th>
+      </tr>
+    <tr>
+        <td>
+            <a href={{product['url']}}>{{product['title']}}</a>
+        </td>
+        <td>
+            {{product['brand']}}
+        </td>
+        <td>
+            {{product['price']}}
+        </td>
+        <td>
+            <details>
+                <summary>Описание</summary>
+                    <p> {{product['description']}}</p>
+              </details>
+        </td>
+        <td>
+            <details>
+                <summary>Характеристики</summary>
+                    <p> {{product['specifications']}}</p>
+            </details>
+        </td>
+        <td></td>
+    </tr>
+
+    {% if product.get('id') %}
+
+    <form method="post" action="/predict_matches">
+        <button type = 'submit' name="search_matches" value="search_matches">Найти сопоставления</button>
+    </form>
+
+    {% endif %}
+
+    {% endif %}
+
+
+
+</div>
+
+<!-- <h3 style="text-align:center">Сопоставления</h3> -->
+
+<div class="products_info">
+    {% if matching_products %}
+    <!-- <p>Сопоставления</p> -->
+    <form action='/save_matches' method='post'>
+    <table>
+    <caption>Сопоставления</caption>  
+
+    {% for product in matching_products %}
+    <tr>
+        <td>
+            <a href={{product['url']}}>{{product['title']}}</a>
+
+        </td>
+        <td>
+            {{product['brand']}}
+        </td>
+        <td>
+            {{product['price']}}
+        </td>
+        <td>
+            <details>
+                <summary>Описание</summary>
+                    <p> {{product['description']}}</p>
+              </details>
+        </td>
+        <td>
+            <details>
+                <summary>Характеристики</summary>
+                    <p> {{product['specifications']}}</p>
+            </details>
+        </td>
+        <td>
+            <div>
+                <div>
+                    <input type="radio" id="approve" name="match1" value="1" />
+                    <label for="approve">approve</label>
+                </div>
+                <div>
+                    <input type="radio" id="reject" name="match1" value="2" />
+                    <label for="reject">reject</label>
+                </div>
+            </div>
+        </td>
+    </tr>
+    {% endfor %}
+    </table>
+    <button type = 'submit'>Сохранить данные</button>
+</form>
+{% endif %}
+</div>
+
+
+
+{% endblock %}
