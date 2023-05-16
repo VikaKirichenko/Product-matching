@@ -1,4 +1,3 @@
-# train epoch как есть сюда запихать, + добавить train - там где еще for идет по эпохам
 import pickle
 from collections import defaultdict
 
