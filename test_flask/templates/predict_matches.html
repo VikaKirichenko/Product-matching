@@ -5,10 +5,10 @@
 
 {% block content %}
 
-<div>
-    <button type = 'submit'>Сохранения</button>
-</div>
 
+<form method="post" action="/predict_matches">
+    <button type = 'submit' name="saved_searches">Сохранения</button>
+</form>
 <div>
     {{error}}
 <form action='/predict_matches' method='post'>
@@ -37,6 +37,9 @@
         <li>
             <select name="category">
                 <option value="smartphones">Смартфоны</option>
+                <option value="books">Книги</option>
+                <option value="tv">Телевизоры</option>
+                <option value="lego">Игрушки lego</option>
                 <!-- <option value="Пункт самовывоза">Пункт самовывоза</option> -->
             </select>
         </li>
@@ -50,6 +53,12 @@
 
 <form method="post" action="/predict_matches">
     <button type = 'submit' name="generate" value="generating_product">Сгенерировать товар</button>
+    <select name="category">
+        <option value="smartphones">Смартфоны</option>
+        <option value="books">Книги</option>
+        <option value="tv">Телевизоры</option>
+        <option value="lego">Игрушки lego</option>
+    </select>
 </form>
 
 
@@ -114,50 +123,63 @@
 <div class="products_info">
     {% if matching_products %}
     <!-- <p>Сопоставления</p> -->
-    <form action='/save_matches' method='post'>
+    <form action='/predict_matches' method='post'>
     <table>
     <caption>Сопоставления</caption>  
 
-    {% for product in matching_products %}
+    {% for prod in matching_products %}
     <tr>
+        <input type="hidden" value="{{prod.id}}" name='item_id_{{prod.id}}'>
+        <input type="hidden" value="{{product.id}}" name='main_id_{{product.id}}'>
         <td>
-            <a href={{product['url']}}>{{product['title']}}</a>
+            {% if prod['url'] %}
+            <a href={{prod['url']}}>{{prod['title']}}</a>
+            {% else %}
+            {{prod['title']}}
+            {% endif %}
 
         </td>
         <td>
-            {{product['brand']}}
+            {{prod['brand']}}
         </td>
         <td>
-            {{product['price']}}
+            {{prod['price']}}
         </td>
         <td>
             <details>
                 <summary>Описание</summary>
-                    <p> {{product['description']}}</p>
+                    <p> {{prod['description']}}</p>
               </details>
         </td>
         <td>
             <details>
                 <summary>Характеристики</summary>
-                    <p> {{product['specifications']}}</p>
+                    <p> {{prod['specifications']}}</p>
             </details>
         </td>
+        
         <td>
             <div>
+                {% if search %}
                 <div>
-                    <input type="radio" id="approve" name="match1" value="1" />
+                    <input type="radio" id="approve" name="match{{prod.id}}" value="1" />
                     <label for="approve">approve</label>
                 </div>
                 <div>
-                    <input type="radio" id="reject" name="match1" value="2" />
+                    <input type="radio" id="reject" name="match{{prod.id}}" value="2" />
                     <label for="reject">reject</label>
                 </div>
+                {% endif %}
             </div>
         </td>
+        
     </tr>
     {% endfor %}
     </table>
-    <button type = 'submit'>Сохранить данные</button>
+    {% if search %}
+    <button type = 'submit' name="save_corrections">Сохранить данные</button>
+    {% endif %}
+    <button type = 'submit' name="save_search">Сохранить поиск</button>
 </form>
 {% endif %}
 </div>

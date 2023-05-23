@@ -1,0 +1,59 @@
+{% extends 'index.html' %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="../static/css/predict_matches.css">
+{% endblock %}
+
+{% block content %}
+
+<div class="prod_info">
+    {% if data %}
+    <!-- <p>Сопоставления</p> -->
+    
+    <table>
+    {% for prod in data %}
+    <form action='/saved_searches' method='post'>
+    <tr>
+        <input type="hidden" value="{{prod['product']['id']}}" name='item_id'>
+        <td>
+            <a href={{prod['url']}}>{{prod['product']['title']}}</a>
+
+        </td>
+        <td>
+            {{prod['product']['brand']}}
+        </td>
+        <td>
+            {{prod['product']['price']}}
+        </td>
+        <td>
+            <details>
+                <summary>Описание</summary>
+                    <p> {{prod['product']['description']}}</p>
+              </details>
+        </td>
+        <td>
+            <details>
+                <summary>Характеристики</summary>
+                    <p> {{prod['product']['specifications']}}</p>
+            </details>
+        </td>
+        <td>
+            <!-- <p>Количество сопоставлений: {{prod['num_matches']}}</p> -->
+            <button type = 'submit' name="get_matches" value="{{prod['product']['id']}}{{prod['web']}}">Количество сопоставлений: {{prod['num_matches']}}</button>
+            <!-- здесь сделать кнопку -->
+        </td>
+        <td>
+            
+            <button type = 'submit' name="delete_prod" value="{{prod['product']['id']}}{{prod['web']}}">Удалить товар</button>
+            <!-- сделать кнопку красной -->
+            
+        </td>
+    </tr>
+    {% endfor %}
+    </table>
+</form>
+{% endif %}
+</div>
+
+
+
+{% endblock %}
